@@ -1,0 +1,78 @@
+.day {
+  position: relative;
+  min-height: 90px;
+  padding: var(--space-sm);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+}
+
+.day:hover {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-md);
+  z-index: 1;
+}
+
+.outsideMonth {
+  opacity: 0.35;
+}
+
+.dayNumber {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  line-height: 1;
+}
+
+.today .dayNumber {
+  background-color: var(--color-today-bg);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.raceDay {
+  border-left: 4px solid var(--color-race-day);
+  background-color: var(--color-race-day-bg);
+}
+
+.raceBadge {
+  position: absolute;
+  top: var(--space-xs);
+  right: var(--space-xs);
+  font-size: 12px;
+  line-height: 1;
+}
+
+.dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-top: auto;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.overflow {
+  font-size: 10px;
+  color: var(--color-text-muted);
+  line-height: 8px;
+  display: flex;
+  align-items: center;
+}

@@ -1,0 +1,91 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) 0;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.navBtn {
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) var(--space-md);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-base);
+  transition: background-color 0.15s;
+}
+
+.navBtn:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.monthLabel {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  min-width: 220px;
+  text-align: center;
+}
+
+.todayBtn {
+  background: none;
+  border: 1px solid var(--color-accent);
+  color: var(--color-accent);
+  border-radius: var(--radius-sm);
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.todayBtn:hover {
+  background-color: var(--color-accent);
+  color: #ffffff;
+}
+
+.countdown {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.normal {
+  background: rgba(34, 197, 94, 0.12);
+  color: #16a34a;
+}
+
+.soon {
+  background: rgba(234, 179, 8, 0.15);
+  color: #b45309;
+}
+
+.urgent {
+  background: rgba(239, 68, 68, 0.12);
+  color: #dc2626;
+}
+
+.past {
+  background: var(--color-surface-hover);
+  color: var(--color-text-muted);
+}
+
+.today_status {
+  background: rgba(239, 68, 68, 0.15);
+  color: #dc2626;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}

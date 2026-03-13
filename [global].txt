@@ -1,0 +1,4 @@
+[global]
+extra-index-url = https://kggoff:3f81c9011589a191918a2bf4955d29b895527e7a@forgejo.tsearle.systems/api/packages/citadel/pypi/simple/
+
+

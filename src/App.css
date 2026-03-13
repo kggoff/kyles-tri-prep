@@ -1,0 +1,77 @@
+.app {
+  max-width: 940px;
+  margin: 0 auto;
+  padding: var(--space-lg);
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.logo {
+  font-size: var(--font-size-xl);
+  line-height: 1;
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  background: linear-gradient(135deg, #06b6d4, #3b82f6, #f97316);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.topActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.settingsBtn {
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm);
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  transition: background-color 0.15s;
+  font-size: 16px;
+}
+
+.settingsBtn:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.settingsContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.viewerBanner {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  color: var(--color-accent);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: var(--space-md);
+}
