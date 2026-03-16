@@ -87,19 +87,22 @@ export default function WeeklySummary({ entries, activityTypes }) {
             const data = summary[typeId]
             const hours = Math.floor(data.totalMinutes / 60)
             const mins = data.totalMinutes % 60
-            const timeStr = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`
+            const paddedMins = mins.toString().padStart(2, '0')
+            const timeStr = `${hours}:${paddedMins}:00`
             const distEntries = Object.entries(data.distances)
 
             return (
               <div key={typeId} className={styles.card}>
                 <div className={styles.iconWrap} style={{ color: type.color }}>
-                  <ActivityIcon typeId={typeId} size={28} color={type.color} />
+                  <ActivityIcon typeId={typeId} size={24} color={type.color} />
                 </div>
                 <div className={styles.label}>{type.label}</div>
-                <div className={styles.time}>{timeStr}</div>
-                {distEntries.map(([unit, dist]) => (
-                  <div key={unit} className={styles.distance}>{formatDistance(dist, unit)}</div>
-                ))}
+                <div className={styles.stats}>
+                  <div className={styles.time}>{timeStr}</div>
+                  {distEntries.map(([unit, dist]) => (
+                    <div key={unit} className={styles.distance}>{formatDistance(dist, unit)}</div>
+                  ))}
+                </div>
               </div>
             )
           })}

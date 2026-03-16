@@ -3,14 +3,10 @@ import styles from './CalendarDay.module.css'
 
 const MAX_VISIBLE = 3
 
-function formatDuration(min) {
-  if (!min) return ''
-  if (min >= 60) {
-    const h = Math.floor(min / 60)
-    const m = min % 60
-    return m > 0 ? `${h}h${m}m` : `${h}h`
-  }
-  return `${min}m`
+function formatDistance(distance, unit) {
+  if (!distance) return ''
+  const rounded = Math.round(distance * 10) / 10
+  return `${rounded}${unit}`
 }
 
 export default function CalendarDay({ date, isToday, isRaceDay, isCurrentMonth, activities, activityTypes, onClick }) {
@@ -42,7 +38,7 @@ export default function CalendarDay({ date, isToday, isRaceDay, isCurrentMonth, 
                 <span className={styles.chipIcon}>
                   <ActivityIcon typeId={type?.id} size={12} color="#fff" />
                 </span>
-                <span className={styles.chipText}>{formatDuration(a.duration)}</span>
+                <span className={styles.chipText}>{formatDistance(a.distance, a.distanceUnit || 'mi')}</span>
               </div>
             )
           })}
