@@ -28,8 +28,11 @@
 .typeBadge {
   padding: 2px var(--space-sm);
   border-radius: 999px;
+  font-family: var(--font-family-heading);
   font-size: var(--font-size-xs);
-  font-weight: 700;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
   white-space: nowrap;
 }
 
@@ -49,8 +52,11 @@
 .intensityPill {
   padding: 1px var(--space-sm);
   border-radius: 999px;
+  font-family: var(--font-family-heading);
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
   color: #ffffff;
 }
 
@@ -96,15 +102,18 @@
   background: none;
   border: 2px dashed var(--color-border);
   border-radius: var(--radius-md);
-  color: var(--color-accent);
+  color: #e02020;
+  font-family: var(--font-family-heading);
   font-size: var(--font-size-sm);
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   transition: border-color 0.15s, background-color 0.15s;
 }
 
 .addBtn:hover {
-  border-color: var(--color-accent);
-  background-color: rgba(59, 130, 246, 0.05);
+  border-color: #e02020;
+  background-color: rgba(224, 32, 32, 0.05);
 }
 
 .empty {

@@ -16,7 +16,7 @@ export default function CalendarHeader({ year, month, raceDate, onPrev, onNext, 
       </div>
       {countdown && (
         <div className={`${styles.countdown} ${statusClass}`}>
-          🏁 {countdown.label}
+          {countdown.label}
         </div>
       )}
     </div>

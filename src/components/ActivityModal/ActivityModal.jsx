@@ -71,7 +71,11 @@ export default function ActivityModal({
                   {type?.label || 'Unknown'}
                 </span>
                 <div className={styles.entryDetails}>
-                  <span className={styles.detail}>{entry.duration} min</span>
+                  <span className={styles.detail}>
+                    {entry.duration >= 60
+                      ? `${Math.floor(entry.duration / 60)}hr ${entry.duration % 60 > 0 ? `${entry.duration % 60}min` : ''}`
+                      : `${entry.duration}min`}
+                  </span>
                   {entry.distance && (
                     <span className={styles.detail}>
                       {entry.distance} {entry.distanceUnit}

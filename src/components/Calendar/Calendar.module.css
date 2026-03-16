@@ -8,11 +8,12 @@
 .weekday {
   text-align: center;
   padding: var(--space-sm);
+  font-family: var(--font-family-heading);
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: 500;
   color: var(--color-text-secondary);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
 }
 
 .grid {

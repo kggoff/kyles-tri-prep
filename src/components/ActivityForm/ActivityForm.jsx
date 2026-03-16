@@ -3,22 +3,33 @@ import { getContrastText } from '../../utils/colorUtils'
 import styles from './ActivityForm.module.css'
 
 const INTENSITIES = ['easy', 'moderate', 'hard']
-const DISTANCE_UNITS = ['km', 'mi', 'm', 'yd']
+const DISTANCE_UNITS = ['mi', 'km', 'm', 'yd']
+
+function minutesToHM(totalMin) {
+  if (!totalMin) return { hours: '', minutes: '' }
+  const h = Math.floor(totalMin / 60)
+  const m = totalMin % 60
+  return { hours: h > 0 ? String(h) : '', minutes: m > 0 ? String(m) : '' }
+}
 
 export default function ActivityForm({ activityTypes, initialData, onSave, onCancel }) {
   const [activityTypeId, setActivityTypeId] = useState(initialData?.activityTypeId || '')
-  const [duration, setDuration] = useState(initialData?.duration || '')
+  const initHM = minutesToHM(initialData?.duration)
+  const [hours, setHours] = useState(initHM.hours)
+  const [minutes, setMinutes] = useState(initHM.minutes)
   const [distance, setDistance] = useState(initialData?.distance || '')
-  const [distanceUnit, setDistanceUnit] = useState(initialData?.distanceUnit || 'km')
+  const [distanceUnit, setDistanceUnit] = useState(initialData?.distanceUnit || 'mi')
   const [intensity, setIntensity] = useState(initialData?.intensity || 'moderate')
   const [notes, setNotes] = useState(initialData?.notes || '')
 
+  const totalMinutes = (Number(hours) || 0) * 60 + (Number(minutes) || 0)
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (!activityTypeId || !duration) return
+    if (!activityTypeId || totalMinutes <= 0) return
     onSave({
       activityTypeId,
-      duration: Number(duration),
+      duration: totalMinutes,
       distance: distance ? Number(distance) : null,
       distanceUnit,
       intensity,
@@ -50,20 +61,32 @@ export default function ActivityForm({ activityTypes, initialData, onSave, onCan
 
       <div className={styles.row}>
         <div className={styles.field}>
-          <label className={styles.label}>Duration (min)</label>
-          <input
-            type="number"
-            className={styles.input}
-            value={duration}
-            onChange={e => setDuration(e.target.value)}
-            placeholder="45"
-            min="1"
-            required
-          />
+          <label className={styles.label}>Duration</label>
+          <div className={styles.durationRow}>
+            <input
+              type="number"
+              className={styles.input}
+              value={hours}
+              onChange={e => setHours(e.target.value)}
+              placeholder="0"
+              min="0"
+            />
+            <span className={styles.unitLabel}>hr</span>
+            <input
+              type="number"
+              className={styles.input}
+              value={minutes}
+              onChange={e => setMinutes(e.target.value)}
+              placeholder="0"
+              min="0"
+              max="59"
+            />
+            <span className={styles.unitLabel}>min</span>
+          </div>
         </div>
         <div className={styles.field}>
           <label className={styles.label}>Distance</label>
-          <div className={styles.row} style={{ gap: 'var(--space-xs)' }}>
+          <div className={styles.distanceRow}>
             <input
               type="number"
               className={styles.input}
@@ -108,7 +131,7 @@ export default function ActivityForm({ activityTypes, initialData, onSave, onCan
 
       <div className={styles.actions}>
         <button type="button" className={styles.cancelBtn} onClick={onCancel}>Cancel</button>
-        <button type="submit" className={styles.saveBtn} disabled={!activityTypeId || !duration}>Save</button>
+        <button type="submit" className={styles.saveBtn} disabled={!activityTypeId || totalMinutes <= 0}>Save</button>
       </div>
     </form>
   )

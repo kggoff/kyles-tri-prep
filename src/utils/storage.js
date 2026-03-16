@@ -3,4 +3,5 @@ export const STORAGE_KEYS = {
   ACTIVITY_TYPES: 'tri-tracker-activity-types',
   ENTRIES: 'tri-tracker-entries',
   THEME: 'tri-tracker-theme',
+  MIGRATED: 'tri-tracker-migrated',
 }

@@ -6,31 +6,32 @@
 
 .topBar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  gap: var(--space-sm);
   margin-bottom: var(--space-md);
   padding-bottom: var(--space-md);
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 2px solid var(--color-border);
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
-}
-
-.logo {
-  font-size: var(--font-size-xl);
-  line-height: 1;
 }
 
 .title {
-  font-size: var(--font-size-xl);
-  font-weight: 800;
-  background: linear-gradient(135deg, #06b6d4, #3b82f6, #f97316);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-family: var(--font-family-heading);
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-text-primary);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.titleAccent {
+  color: #e02020;
 }
 
 .topActions {
@@ -65,13 +66,16 @@
 }
 
 .viewerBanner {
-  background: rgba(59, 130, 246, 0.1);
-  border: 1px solid rgba(59, 130, 246, 0.25);
-  color: var(--color-accent);
+  background: rgba(224, 32, 32, 0.08);
+  border: 1px solid rgba(224, 32, 32, 0.25);
+  color: #e02020;
   padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-sm);
+  font-family: var(--font-family-heading);
   font-size: var(--font-size-sm);
   font-weight: 600;
   text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   margin-bottom: var(--space-md);
 }

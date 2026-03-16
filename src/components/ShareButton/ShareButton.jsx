@@ -18,7 +18,7 @@ export default function ShareButton({ entries, activityTypes, raceDate }) {
       className={`${styles.shareBtn} ${copied ? styles.copied : ''}`}
       onClick={handleShare}
     >
-      {copied ? '✓ Copied!' : '🔗 Share'}
+      {copied ? 'Copied!' : 'Share'}
     </button>
   )
 }

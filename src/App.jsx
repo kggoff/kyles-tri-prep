@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import { useTrainingData } from './hooks/useTrainingData'
+import { useAuth } from './hooks/useAuth'
+import { useSupabaseData } from './hooks/useSupabaseData'
+import { supabase } from './lib/supabase'
 import { STORAGE_KEYS } from './utils/storage'
 import { toDateKey } from './utils/dateUtils'
 import { decodeShareData } from './utils/shareUtils'
+import { migrateLocalDataToSupabase } from './utils/migrate'
 import Calendar from './components/Calendar/Calendar'
 import CalendarHeader from './components/Calendar/CalendarHeader'
 import ThemeToggle from './components/ThemeToggle/ThemeToggle'
@@ -11,6 +15,7 @@ import ActivityModal from './components/ActivityModal/ActivityModal'
 import RaceDatePicker from './components/RaceDatePicker/RaceDatePicker'
 import ActivityTypeManager from './components/ActivityTypeManager/ActivityTypeManager'
 import ShareButton from './components/ShareButton/ShareButton'
+import AuthGate from './components/AuthGate/AuthGate'
 import Modal from './components/common/Modal'
 import './App.css'
 
@@ -35,6 +40,14 @@ export default function App() {
   const toggleTheme = () => setTheme(prev => prev === 'light' ? 'dark' : 'light')
 
   const readOnly = sharedData !== null
+  const { user, loading: authLoading, signIn, signUp, signOut } = useAuth()
+
+  // Run migration on first login
+  useEffect(() => {
+    if (user && supabase) {
+      migrateLocalDataToSupabase(supabase, user.id)
+    }
+  }, [user])
 
   const now = new Date()
   const [viewYear, setViewYear] = useState(now.getFullYear())
@@ -43,10 +56,14 @@ export default function App() {
   const [showSettings, setShowSettings] = useState(false)
 
   const localData = useTrainingData()
+  const supabaseData = useSupabaseData(user)
 
-  const entries = readOnly ? sharedData.entries : localData.entries
-  const activityTypes = readOnly ? sharedData.activityTypes : localData.activityTypes
-  const raceDate = readOnly ? sharedData.raceDate : localData.raceDate
+  // Use Supabase data when authenticated, localStorage as fallback
+  const data = user ? supabaseData : localData
+
+  const entries = readOnly ? sharedData.entries : data.entries
+  const activityTypes = readOnly ? sharedData.activityTypes : data.activityTypes
+  const raceDate = readOnly ? sharedData.raceDate : data.raceDate
 
   const goToPrev = () => {
     if (viewMonth === 0) {
@@ -84,14 +101,25 @@ export default function App() {
 
   const selectedDateEntries = selectedDate ? (entries[toDateKey(selectedDate)] || []) : []
 
-  if (loading) return null
+  if (loading || authLoading) return null
+
+  // Show auth gate if not authenticated and not viewing a shared link, and Supabase is configured
+  if (!user && !readOnly && supabase) {
+    return (
+      <>
+        <div style={{ position: 'absolute', top: 16, right: 16 }}>
+          <ThemeToggle theme={theme} onToggle={toggleTheme} />
+        </div>
+        <AuthGate onSignIn={signIn} onSignUp={signUp} />
+      </>
+    )
+  }
 
   return (
     <div className="app">
       <div className="topBar">
         <div className="brand">
-          <span className="logo">🏊‍♂️🚴‍♂️🏃‍♂️</span>
-          <h1 className="title">Kyles Triathlon Prep</h1>
+          <h1 className="title">KYLE'S <span className="titleAccent">TRI</span> PREP</h1>
         </div>
         <div className="topActions">
           {!readOnly && (
@@ -103,12 +131,17 @@ export default function App() {
             </>
           )}
           <ThemeToggle theme={theme} onToggle={toggleTheme} />
+          {user && (
+            <button className="settingsBtn" onClick={signOut} title="Sign out">
+              &#x23FB;
+            </button>
+          )}
         </div>
       </div>
 
       {readOnly && (
         <div className="viewerBanner">
-          👁 Viewing Kyles training schedule (read-only)
+          Viewing Kyle's training schedule (read-only)
         </div>
       )}
 
@@ -137,21 +170,21 @@ export default function App() {
           activityTypes={activityTypes}
           readOnly={readOnly}
           onClose={() => setSelectedDate(null)}
-          onAddEntry={readOnly ? undefined : localData.addEntry}
-          onUpdateEntry={readOnly ? undefined : localData.updateEntry}
-          onDeleteEntry={readOnly ? undefined : localData.deleteEntry}
+          onAddEntry={readOnly ? undefined : data.addEntry}
+          onUpdateEntry={readOnly ? undefined : data.updateEntry}
+          onDeleteEntry={readOnly ? undefined : data.deleteEntry}
         />
       )}
 
       {!readOnly && (
         <Modal isOpen={showSettings} onClose={() => setShowSettings(false)} title="Settings">
           <div className="settingsContent">
-            <RaceDatePicker raceDate={raceDate} onSetRaceDate={localData.setRaceDate} />
+            <RaceDatePicker raceDate={raceDate} onSetRaceDate={data.setRaceDate} />
             <ActivityTypeManager
               activityTypes={activityTypes}
-              onAdd={localData.addActivityType}
-              onUpdate={localData.updateActivityType}
-              onDelete={localData.deleteActivityType}
+              onAdd={data.addActivityType}
+              onUpdate={data.updateActivityType}
+              onDelete={data.deleteActivityType}
             />
           </div>
         </Modal>

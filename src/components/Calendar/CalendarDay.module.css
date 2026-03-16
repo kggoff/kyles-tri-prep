@@ -1,6 +1,6 @@
 .day {
   position: relative;
-  min-height: 90px;
+  min-height: 100px;
   padding: var(--space-sm);
   background: var(--color-surface);
   color: var(--color-text-primary);
@@ -11,7 +11,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--space-xs);
+  gap: 2px;
 }
 
 .day:hover {
@@ -51,28 +51,57 @@
   position: absolute;
   top: var(--space-xs);
   right: var(--space-xs);
-  font-size: 12px;
+  font-family: var(--font-family-heading);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   line-height: 1;
+  background: #e02020;
+  color: #ffffff;
+  padding: 2px 4px;
+  border-radius: 2px;
 }
 
-.dots {
+.activityList {
   display: flex;
-  flex-wrap: wrap;
-  gap: 3px;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
   margin-top: auto;
 }
 
-.dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+.activityChip {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.chipIcon {
+  font-size: 11px;
+  line-height: 1;
   flex-shrink: 0;
+}
+
+.chipText {
+  font-family: var(--font-family-heading);
+  font-size: 10px;
+  font-weight: 500;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+  text-transform: uppercase;
 }
 
 .overflow {
   font-size: 10px;
   color: var(--color-text-muted);
-  line-height: 8px;
-  display: flex;
-  align-items: center;
+  line-height: 1;
+  padding-top: 1px;
 }

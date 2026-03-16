@@ -8,9 +8,12 @@
 }
 
 .label {
+  font-family: var(--font-family-heading);
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: 500;
   color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   margin-bottom: var(--space-xs);
 }
 
@@ -43,14 +46,36 @@
 
 .row {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--space-md);
   align-items: flex-end;
+}
+
+.durationRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.durationRow input {
+  width: 70px;
+}
+
+.distanceRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.distanceRow input {
+  width: 80px;
 }
 
 .field {
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-width: 0;
 }
 
 .input {
@@ -91,8 +116,11 @@
   border: none;
   background: var(--color-surface);
   color: var(--color-text-secondary);
+  font-family: var(--font-family-heading);
   font-size: var(--font-size-sm);
   font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
   transition: background-color 0.15s, color 0.15s;
 }
 
@@ -107,6 +135,13 @@
 .intensityBtnActive {
   color: #ffffff;
   font-weight: 700;
+}
+
+.unitLabel {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 .easy { background-color: #22c55e !important; }
@@ -138,17 +173,20 @@
 
 .saveBtn {
   padding: var(--space-sm) var(--space-lg);
-  background: var(--color-accent);
+  background: #e02020;
   color: #ffffff;
   border: none;
   border-radius: var(--radius-sm);
+  font-family: var(--font-family-heading);
   font-size: var(--font-size-sm);
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   transition: background-color 0.15s;
 }
 
 .saveBtn:hover {
-  background: var(--color-accent-hover);
+  background: #c41818;
 }
 
 .cancelBtn {
