@@ -15,6 +15,7 @@ import ActivityModal from './components/ActivityModal/ActivityModal'
 import RaceDatePicker from './components/RaceDatePicker/RaceDatePicker'
 import ActivityTypeManager from './components/ActivityTypeManager/ActivityTypeManager'
 import ShareButton from './components/ShareButton/ShareButton'
+import WeeklySummary from './components/WeeklySummary/WeeklySummary'
 import AuthGate from './components/AuthGate/AuthGate'
 import Modal from './components/common/Modal'
 import './App.css'
@@ -162,6 +163,8 @@ export default function App() {
         raceDate={raceDate}
         onDayClick={handleDayClick}
       />
+
+      <WeeklySummary entries={entries} activityTypes={activityTypes} />
 
       {selectedDate && (
         <ActivityModal

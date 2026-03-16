@@ -1,12 +1,7 @@
+import { ActivityIcon } from '../icons/ActivityIcons'
 import styles from './CalendarDay.module.css'
 
 const MAX_VISIBLE = 3
-
-const ACTIVITY_ICONS = {
-  swim: '\u{1F3CA}',
-  bike: '\u{1F6B4}',
-  run: '\u{1F3C3}',
-}
 
 function formatDuration(min) {
   if (!min) return ''
@@ -38,14 +33,15 @@ export default function CalendarDay({ date, isToday, isRaceDay, isCurrentMonth, 
         <div className={styles.activityList}>
           {visible.map(a => {
             const type = typeMap[a.activityTypeId]
-            const icon = ACTIVITY_ICONS[type?.id] || '\u{1F4AA}'
             return (
               <div
                 key={a.id}
                 className={styles.activityChip}
                 style={{ backgroundColor: type?.color || '#9ca3af' }}
               >
-                <span className={styles.chipIcon}>{icon}</span>
+                <span className={styles.chipIcon}>
+                  <ActivityIcon typeId={type?.id} size={12} color="#fff" />
+                </span>
                 <span className={styles.chipText}>{formatDuration(a.duration)}</span>
               </div>
             )
