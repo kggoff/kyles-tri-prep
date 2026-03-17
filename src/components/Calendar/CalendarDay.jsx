@@ -36,7 +36,7 @@ export default function CalendarDay({ date, isToday, isRaceDay, isCurrentMonth, 
                 style={{ backgroundColor: type?.color || '#9ca3af' }}
               >
                 <span className={styles.chipIcon}>
-                  <ActivityIcon typeId={type?.id} size={12} color="#fff" />
+                  <ActivityIcon typeId={type?.id} label={type?.label} size={12} color="#fff" />
                 </span>
                 <span className={styles.chipText}>{formatDistance(a.distance, a.distanceUnit || 'mi')}</span>
               </div>

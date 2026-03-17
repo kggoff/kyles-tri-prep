@@ -94,7 +94,7 @@ export default function WeeklySummary({ entries, activityTypes }) {
             return (
               <div key={typeId} className={styles.card}>
                 <div className={styles.iconWrap} style={{ color: type.color }}>
-                  <ActivityIcon typeId={typeId} size={24} color={type.color} />
+                  <ActivityIcon typeId={typeId} label={type.label} size={24} color={type.color} />
                 </div>
                 <div className={styles.label}>{type.label}</div>
                 <div className={styles.stats}>
