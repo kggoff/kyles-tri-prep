@@ -1,6 +1,6 @@
 import {
   INITIAL_LIVES,
-  LEVEL_UP_THRESHOLD,
+  NUMBERS_PER_LEVEL,
   PLAYFIELD_BOTTOM_OFFSET,
   PARTICLE_COUNT,
   PARTICLE_LIFETIME,
@@ -23,6 +23,8 @@ export const initialState = {
   shaking: false,
   spawnTimer: 0,
   numbersDestroyed: 0,
+  levelKills: 0,       // destroyed this level
+  levelSpawned: 0,     // spawned this level
   gameOver: false,
   levelUpFlash: false,
 }
@@ -52,9 +54,11 @@ export function gameReducer(state, action) {
       )
 
       // Handle missed numbers
-      let { lives, combo, shaking, gameOver, score } = state
+      let { lives, combo, shaking, gameOver, score, levelKills } = state
+      let levelMissed = 0
       if (missed.length > 0) {
         lives = lives - missed.length
+        levelMissed = missed.length
         combo = 0
         shaking = true
         if (lives <= 0) {
@@ -63,11 +67,12 @@ export function gameReducer(state, action) {
         }
       }
 
-      // Spawn logic
+      // Spawn logic — only spawn if we haven't hit NUMBERS_PER_LEVEL
       const config = getLevelConfig(state.level)
       let spawnTimer = state.spawnTimer + dt
       let newNumbers = []
-      if (spawnTimer >= config.spawnInterval / 1000) {
+      let levelSpawned = state.levelSpawned
+      if (levelSpawned < NUMBERS_PER_LEVEL && spawnTimer >= config.spawnInterval / 1000) {
         spawnTimer = 0
         const value = generateNumber(config.maxDigits)
         const padding = 60
@@ -77,18 +82,29 @@ export function gameReducer(state, action) {
           value,
           x,
           y: -30,
-          speed: config.baseSpeed + Math.random() * 20 - 10,
+          speed: config.baseSpeed + Math.random() * 30 - 15,
           createdAt: now,
         })
+        levelSpawned++
       }
 
-      // Level up check
-      let { level, numbersDestroyed, levelUpFlash } = state
+      // Check level complete: all spawned AND no numbers left on screen
+      let { level, levelUpFlash } = state
+      let newLevelKills = levelKills + levelMissed
       if (levelUpFlash) levelUpFlash = false
+
+      const allNumbers = [...alive, ...newNumbers]
+      if (levelSpawned >= NUMBERS_PER_LEVEL && allNumbers.length === 0 && !gameOver) {
+        level = level + 1
+        levelUpFlash = true
+        levelSpawned = 0
+        newLevelKills = 0
+        spawnTimer = 0
+      }
 
       return {
         ...state,
-        fallingNumbers: [...alive, ...newNumbers],
+        fallingNumbers: allNumbers,
         particles: activeParticles,
         lives,
         combo,
@@ -97,7 +113,9 @@ export function gameReducer(state, action) {
         score,
         spawnTimer,
         level,
-        numbersDestroyed,
+        numbersDestroyed: state.numbersDestroyed + levelMissed,
+        levelKills: newLevelKills,
+        levelSpawned,
         levelUpFlash,
       }
     }
@@ -131,12 +149,7 @@ export function gameReducer(state, action) {
         }
 
         const newDestroyed = state.numbersDestroyed + 1
-        let newLevel = state.level
-        let levelUpFlash = false
-        if (newDestroyed > 0 && newDestroyed % LEVEL_UP_THRESHOLD === 0) {
-          newLevel = state.level + 1
-          levelUpFlash = true
-        }
+        const newLevelKills = state.levelKills + 1
 
         return {
           ...state,
@@ -147,8 +160,7 @@ export function gameReducer(state, action) {
           typedBuffer: '',
           particles: [...state.particles, ...newParticles],
           numbersDestroyed: newDestroyed,
-          level: newLevel,
-          levelUpFlash,
+          levelKills: newLevelKills,
         }
       }
 

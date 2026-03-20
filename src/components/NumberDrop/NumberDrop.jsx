@@ -1,7 +1,7 @@
 import { useReducer, useEffect, useCallback, useState, useRef } from 'react'
 import { gameReducer, initialState } from './gameReducer.js'
 import { useGameLoop } from './useGameLoop.js'
-import { SHAKE_DURATION, HIGH_SCORE_KEY, PLAYFIELD_BOTTOM_OFFSET } from './constants.js'
+import { SHAKE_DURATION, HIGH_SCORE_KEY, PLAYFIELD_BOTTOM_OFFSET, NUMBERS_PER_LEVEL } from './constants.js'
 import { initAudio, playHit, playCombo, playMiss, playLevelUp, playGameOver } from './audio.js'
 import { fetchLeaderboard, submitScore, isSupabaseEnabled } from './leaderboard.js'
 import './NumberDrop.css'
@@ -272,6 +272,26 @@ export default function NumberDrop() {
               </div>
             </div>
           </div>
+
+          {/* Level progress bar */}
+          {(() => {
+            const progress = (state.levelKills + (NUMBERS_PER_LEVEL - state.levelSpawned + state.fallingNumbers.length > 0 ? 0 : 0)) / NUMBERS_PER_LEVEL
+            const progressPct = Math.min(100, (state.levelKills / NUMBERS_PER_LEVEL) * 100)
+            return (
+              <div className="nd-progress">
+                <div className="nd-progress-label">
+                  <span>LVL {state.level}</span>
+                  <span>{state.levelKills}/{NUMBERS_PER_LEVEL}</span>
+                </div>
+                <div className="nd-progress-bar">
+                  <div
+                    className="nd-progress-fill"
+                    style={{ width: progressPct + '%' }}
+                  />
+                </div>
+              </div>
+            )
+          })()}
 
           {/* Combo display */}
           {state.combo >= 2 && (
