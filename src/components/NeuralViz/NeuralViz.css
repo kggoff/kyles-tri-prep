@@ -1,0 +1,318 @@
+.neuralViz {
+  position: fixed;
+  inset: 0;
+  background: #0a0a1a;
+  overflow: hidden;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: #e0e0ff;
+  cursor: crosshair;
+}
+
+.neuralCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Title */
+.nv-title {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.nv-title h1 {
+  font-size: 2rem;
+  font-weight: 200;
+  letter-spacing: 0.4em;
+  margin: 0;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+}
+
+.nv-accent {
+  color: #00d4ff;
+  font-weight: 700;
+}
+
+.nv-subtitle {
+  margin: 4px 0 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(0, 212, 255, 0.6);
+}
+
+/* Glassmorphism panels */
+.nv-panel {
+  position: absolute;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  animation: panelFadeIn 0.8s ease-out backwards;
+}
+
+@keyframes panelFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.nv-panelTitle {
+  margin: 0 0 14px;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(0, 212, 255, 0.7);
+  font-weight: 600;
+}
+
+/* Stats panel */
+.nv-stats {
+  top: 100px;
+  left: 24px;
+  width: 220px;
+  animation-delay: 0.1s;
+}
+
+.nv-statGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.nv-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.nv-statValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.nv-statLabel {
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 4px;
+}
+
+.nv-throughput {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.nv-throughputLabel {
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.nv-throughputValue {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #00ff88;
+  font-variant-numeric: tabular-nums;
+}
+
+.nv-bar {
+  margin-top: 10px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.nv-barFill {
+  height: 100%;
+  background: linear-gradient(90deg, #00d4ff, #00ff88);
+  border-radius: 2px;
+  transition: width 1s ease;
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+}
+
+/* Controls panel */
+.nv-controls {
+  top: 100px;
+  right: 24px;
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation-delay: 0.2s;
+}
+
+.nv-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e0e0ff;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  text-align: left;
+}
+
+.nv-btn:hover {
+  background: rgba(0, 212, 255, 0.1);
+  border-color: rgba(0, 212, 255, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 212, 255, 0.15);
+}
+
+.nv-btnActive {
+  background: rgba(0, 212, 255, 0.15);
+  border-color: rgba(0, 212, 255, 0.4);
+  color: #00d4ff;
+}
+
+.nv-btnBurst {
+  border-color: rgba(255, 107, 0, 0.3);
+}
+
+.nv-btnBurst:hover {
+  background: rgba(255, 107, 0, 0.1);
+  border-color: rgba(255, 107, 0, 0.5);
+  box-shadow: 0 4px 12px rgba(255, 107, 0, 0.15);
+}
+
+/* Activity panel */
+.nv-activity {
+  bottom: 24px;
+  left: 24px;
+  right: 24px;
+  height: 120px;
+  animation-delay: 0.3s;
+}
+
+.nv-activityBar {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 60px;
+}
+
+.nv-activityCol {
+  flex: 1;
+  background: linear-gradient(to top, rgba(0, 212, 255, 0.6), rgba(0, 255, 136, 0.3));
+  border-radius: 2px 2px 0 0;
+  animation: activityPulse 2s ease-in-out infinite alternate;
+  min-width: 0;
+}
+
+@keyframes activityPulse {
+  0% { transform: scaleY(1); }
+  100% { transform: scaleY(0.4 + 0.6); }
+}
+
+.nv-activityCol:nth-child(odd) {
+  animation-duration: 1.5s;
+}
+
+.nv-activityCol:nth-child(3n) {
+  animation-duration: 2.5s;
+}
+
+/* Help toast */
+.nv-help {
+  position: absolute;
+  bottom: 170px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px 24px;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+  z-index: 10;
+  animation: helpFade 0.5s ease-out;
+  white-space: nowrap;
+}
+
+@keyframes helpFade {
+  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* Back button */
+.nv-back {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 10;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.2s ease;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.nv-back:hover {
+  color: #00d4ff;
+  border-color: rgba(0, 212, 255, 0.3);
+  background: rgba(0, 212, 255, 0.05);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .nv-stats {
+    top: auto;
+    bottom: 150px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+  }
+
+  .nv-controls {
+    top: 90px;
+    right: 12px;
+    width: 150px;
+  }
+
+  .nv-activity {
+    left: 12px;
+    right: 12px;
+    height: 100px;
+  }
+
+  .nv-statGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .nv-title h1 {
+    font-size: 1.4rem;
+  }
+}
